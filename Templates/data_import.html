@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Import</title>
+    <link rel="stylesheet" href="/static/dashb.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="/static/Logo-1.png" alt="Company Logo" class="logo">
+        </div>
+        <ul class="menu">
+            <li>Dashboard</li>
+            <li><a href="/data_import">Data Import</a></li>
+            <li><a href="/scm">SCM Update</a></li>
+            <li>Foundry Tonnage Master</li>
+            <li>Reports</li>
+            <li>Update Tonnage</li>
+            <li><a href="/">Log Out</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <header>
+            <div class="main-logo">
+                <img src="/static/L&T logo.png" alt="main logo">
+            </div>
+            <div class="search-container">
+                <input type="text" placeholder="Search" class="search-input">
+                <button class="search-button">Search</button>
+            </div>
+            <div class="header-right">
+                <span>Welcome</span>
+            </div>
+        </header>
+        <header>
+            <div class="header-left">
+                <h2>DATA IMPORTING</h2>
+            </div>
+        </header>
+        <div class="wrapper">
+            <div class="box">
+                <div class="input-bx">
+                    <h2 class="upload-title">Select File Type</h2>
+                    <form action="/data_import" method="post" enctype="multipart/form-data">
+                        <input type="radio" id="pending-po" name="file-type">
+                        <label for="pending-po">Pending Purchase Order</label><br><br>
+                        <input type="file" id="upload" name="file" accept=".xlsx,.csv,.xlsm,.xlsb">
+                        <label for="upload" class="uploadlabel"></label>
+                        <button type="submit" id="uploadbtn" class="btn btn-primary">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

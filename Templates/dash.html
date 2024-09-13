@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SCM</title>
+    <link rel="stylesheet" href="/static/dashb.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="/static/Logo-1.png" alt="Company Logo" class="logo">
+        </div>
+        <ul class="menu">
+            
+            <li>Dashboard</li>
+            <li><a href="/data_import">Data Import</a></li>
+            <li><a href="/scm">SCM Update</a></li>
+            <li>Foundry Tonnage Master</li>
+            <li>Reports</li>
+            <li>Update Tonnage</li>
+            <li><a href="/">Log Out</a></li>
+        </ul>
+    </div>
+    
+    <div class="main-content">
+        <header>
+            <div class="main-logo">
+                <img src="/static/L&T logo.png" alt="main logo">
+            </div>
+            <div class="search-container">
+                <input type="text" placeholder="Search" class="search-input">
+                <button class="search-button">Search</button>
+            </div>
+            <div class="header-right">
+                <span>Welcome</span>
+            </div>
+        </header>
+        <header>
+            <div class="header-left">
+                <h2>DASHBOARD - SCM</h2>
+            </div>
+        </header>
+        <div class="stats">
+            <div class="stat-box green">
+                <h3>2503</h3>
+                <p>Committed</p>
+            </div>
+            <div class="stat-box yellow">
+                <h3>9717</h3>
+                <p>Not Committed</p>
+            </div>
+            <div class="stat-box red">
+                <h3>331</h3>
+                <p>Beyond Delivery</p>
+            </div>
+            <div class="stat-box blue">
+                <h3>11889</h3>
+                <p>Within Delivery</p>
+            </div>
+        </div>
+        <div class="selectors">
+            <select id="plantDropdown">
+                <option value="plant1">AMAZON TECHNOCAST PVT LTD</option>
+                <option value="plant2">Plant 2</option>
+            </select>
+            <select id="productGroupDropdown">
+                <option value="kpm">KPM</option>
+                <option value="bal">BAL</option>
+                <option value="bfv">BFV</option>
+            </select>
+            <select id="projectNameDropdown">
+                <option value="project1">Project 1</option>
+                <option value="project2">Project 2</option>
+            </select>
+            <button id="getChartButton">Get Chart</button>
+        </div>
+        <div class="charts">
+            <div class="chart">
+                <h4>Project-wise Tonnage</h4>
+                <div class="chart-content" id="projectChart">
+                    <!-- Chart content -->
+                </div>
+            </div>
+            <div class="chart">
+                <h4>Cumulative Tonnage</h4>
+                <div class="chart-content" id="cumulativeChart">
+                    <!-- Chart content -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

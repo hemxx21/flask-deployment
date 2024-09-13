@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Commitment</title>
+    <link rel="stylesheet" href="/static/vend.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidenav">
+            <div class="logo">
+                <img src="/static/Logo-1.png" alt="Logo-1">
+            </div>
+            <div class="icon_items">
+                <ul>
+                    <li class="active">
+                        <i class='bx bxs-user-circle'></i>
+                        <a href="/vendor">SUPPLIER COMMITMENT</a>
+                    </li>
+                    <li>
+                        <i class='bx bx-log-out'></i>
+                        <a href="/">LOG OUT</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="nav">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="main-logo">
+                    <img src="/static/L&T logo.png" alt="main logo">
+                </div>
+                <div class="search-container">
+                    <input type="text" placeholder="Search" class="search-input">
+                    <button class="search-button">Search</button>
+                </div>
+                <div class="header-right">
+                    <span>Welcome</span>
+                </div>
+            </header>
+
+            <!-- Sub Header -->
+            <header class="sub-header">
+                <div class="header-left">
+                    <h2>SUPPLIER COMMITMENT</h2>
+                </div>
+                <div class="nums">
+                    <form method="GET" action="/vendor"> 
+                        <label for="rows_per_page">Rows per page:</label>
+                        <select name="rows_per_page" id="rows_per_page" onchange="this.form.submit()">
+                            <option value="10" {% if rows_per_page == 10 %}selected{% endif %}>10</option>
+                            <option value="25" {% if rows_per_page == 25 %}selected{% endif %}>25</option>
+                            <option value="50" {% if rows_per_page == 50 %}selected{% endif %}>50</option>
+                            <option value="100" {% if rows_per_page == 100 %}selected{% endif %}>100</option>
+                        </select>
+                    </form>
+                </div>
+            </header>
+
+            <div class="tcontainer">
+                <div class="table-wrapper">
+                    <form action="/executeven/{{number_of_records}}" method="POST">
+                        <table>
+                            <tr>
+                                <th>PurchaseDocument</th>
+                                <th>PurchaseDocumentItem</th>
+                                <th>DocDate</th>
+                                <th>Material</th>
+                                <th>MaterialDescription</th>
+                                <th>ScheduleQty</th>
+                                <th>DeliveredQty</th>
+                                <th>OpenQty</th>
+                                <th>plant</th>
+                                <th>MRP Controller</th>
+                                <th>DeliveryDate</th>
+                                <th>Urgent</th>
+                                <th>SampleQty</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>L1Qty</th>
+                                <th>L1Date</th>
+                                <th>L1Status</th>
+                                <th>L2Qty</th>
+                                <th>L2Date</th>
+                                <th>L2Status</th>
+                                <th>L3Qty</th>
+                                <th>L3Date</th>
+                                <th>L3Status</th>
+                                <th>OANumber</th>
+                                <th>SupplierRemarks</th>
+                                <th>LTVLRemarks</th>
+                                <th>LastUpdated</th>
+                            </tr>
+                            {% for d in data %}
+                                <tr>
+                                    <td>{{d.PurchaseDocument}}</td>
+                                    <td>{{d.PurchaseDocumentItem}}</td>
+                                    <td>{{d.DocDate}}</td>
+                                    <td>{{d.Material}}</td>
+                                    <td>{{d.MaterialDescription}}</td>
+                                    <td>{{d.ScheduleQty}}</td>
+                                    <td>{{d.DeliveredQty}}</td>
+                                    <td>{{d.OpenQty}}</td>
+                                    <td>{{d.Plant}}</td>
+                                    <td>{{d.MRPController}}</td>
+                                    <td>{{d.DeliveryDate}}</td>
+                                    <td>{{d.Urgent}}</td>
+                                    <input type="hidden" name="record_id_{{ loop.index }}" value="{{ d.PurchaseDocument }}">
+                                    <input type="hidden" name="item_id_{{ loop.index }}" value="{{ d.PurchaseDocumentItem }}"> 
+                                    <input type="hidden" name="delivery_date_{{ loop.index }}" value="{{ d.DeliveryDate }}"> 
+                                    <td>
+                                        <input type="number" name="SampleQty_{{ loop.index }}" value="{{ d.SQty }}" step="0.01">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="date_{{ loop.index }}" value="{{ d.SDate }}">
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="record_id_{{ loop.index }}" value="{{ d.PurchaseDocument }}">
+                                        <select name="status_{{ loop.index }}">
+                                            
+                                            {% for status in statuses %}
+                                                <option value="{{ status.StatusCode }}" 
+                                                        {% if status.StatusCode == d.SStatusCode %}selected{% endif %}>
+                                                    {{ status.StatusDescription }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="L1Qty_{{ loop.index }}" value="{{ d.L1Qty }}" step="0.01">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="L1Date_{{ loop.index }}" value="{{ d.L1Date }}">
+
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="record_id_{{ loop.index }}" value="{{ d.PurchaseDocument }}">
+                                        <select name="L1Status_{{ loop.index }}">
+                                            
+                                            {% for status in statuses %}
+                                                <option value="{{ status.StatusCode }}" 
+                                                        {% if status.StatusCode == d.L1StatusCode %}selected{% endif %}>
+                                                    {{ status.StatusDescription }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="L2Qty_{{ loop.index }}" value="{{ d.L2Qty }}" step="0.01">
+
+                                    </td>
+                                    <td>
+                                        <input type="text" name="L2Date_{{ loop.index }}" value="{{ d.L2Date }}">
+
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="record_id_{{ loop.index }}" value="{{ d.PurchaseDocument }}">
+                                        <select name="L2Status_{{ loop.index }}">
+                                            
+                                            {% for status in statuses %}
+                                                <option value="{{ status.StatusCode }}" 
+                                                        {% if status.StatusCode == d.L2StatusCode %}selected{% endif %}>
+                                                    {{ status.StatusDescription }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="L3Qty_{{ loop.index }}" value="{{ d.L3Qty }}" step="0.01">
+
+                                    </td>
+                                    <td>
+                                        <input type="text" name="L3Date_{{ loop.index }}" value="{{ d.L3Date }}">
+
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="record_id_{{ loop.index }}" value="{{ d.PurchaseDocument }}">
+                                        <select name="L3Status_{{ loop.index }}">
+                                            
+                                            {% for status in statuses %}
+                                                <option value="{{ status.StatusCode }}" 
+                                                        {% if status.StatusCode == d.L3StatusCode %}selected{% endif %}>
+                                                    {{ status.StatusDescription }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="OANumber_{{loop.index}}" value="{{d.OANumber}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="SupplierRemarks_{{ loop.index }}" value="{{ d.SupplierRemarks }}">
+                                    </td>
+                                    <td>{{d.LTVLRemarks}}</td>
+                                    <td>{{d.UpdatedDateTime}}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    </div>
+                        
+                    
+                    <button type="submit" class="execute" id="executebutton">Execute</button>
+                    <div>
+                    </form>
+                    <div>
+                        <!-- Pagination Controls -->
+                        {% if page > 1 %}
+                            <a href="{{ url_for('vendor', rows_per_page=rows_per_page, page=page-1) }}">Previous</a>
+                        {% endif %}
+                        <span>Page {{ page }} of {{ total_pages }}</span>
+                        {% if page < total_pages %}
+                            <a href="{{ url_for('vendor', rows_per_page=rows_per_page, page=page+1) }}">Next</a>
+                        {% endif %}
+                    </div>
+            <!--{% if page|default(1) > 1 %}
+                <a href="{{ url_for('vendor', rows_per_page=rows_per_page, page=page-1) }}">Previous</a>
+            {% endif %}
+            <span>Page {{ page|default(1) }} of {{ total_pages|default(1) }}</span>
+            {% if page|default(1) < total_pages|default(1) %}
+                <a href="{{ url_for('vendor', rows_per_page=rows_per_page, page=page+1) }}">Next</a>
+            {% endif %}-->
+        </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History for {{ doc }} - {{ item }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>History for Purchase Document: {{ doc }} | Item: {{ item }}</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>PurchaseDocument</th>
+                <th>PurchaseDocumentItem</th>
+                <th>Urgent</th>
+                <th>SQty</th>
+                <th>SDate</th>
+                <th>SStatus</th>
+                <th>L1Qty</th>
+                <th>L1Date</th>
+                <th>L1Status</th>
+                <th>L2Qty</th>
+                <th>L2Date</th>
+                <th>L2Status</th>
+                <th>L3Qty</th>
+                <th>L3Date</th>
+                <th>L3Status</th>
+                <th>OANumber</th>
+                <th>SupplierRemarks</th>
+                <th>LTVLRemarks</th>
+                <th>UpdatedDateTime</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in data %}
+            <tr>
+                <td>{{ d.PurchaseDocument }}</td>
+                <td>{{ d.PurchaseDocumentItem }}</td>
+                <td>{{ d.Urgent }}</td>
+                <td>{{ d.SQty }}</td>
+                <td>{{ d.SDate }}</td>
+                <td>{{ d.SStatus }}</td>
+                <td>{{ d.L1Qty }}</td>
+                <td>{{ d.L1Date }}</td>
+                <td>{{ d.L1Status }}</td>
+                <td>{{ d.L2Qty }}</td>
+                <td>{{ d.L2Date }}</td>
+                <td>{{ d.L2Status }}</td>
+                <td>{{ d.L3Qty }}</td>
+                <td>{{ d.L3Date }}</td>
+                <td>{{ d.L3Status }}</td>
+                <td>{{ d.OANumber }}</td>
+                <td>{{ d.SupplierRemarks }}</td>
+                <td>{{ d.LTVLRemarks }}</td>
+                <td>{{ d.UpdatedDateTime }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="{{ url_for('scm') }}">Back to SCM Table</a>
+</body>
+</html>

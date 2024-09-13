@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCM Update</title>
+    <link rel="stylesheet" href="/static/dashb.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel="stylesheet">
+    <style>
+        .execute {
+                text-align: left; 
+                margin-bottom: 100px;
+                background-color: #4CAF50;
+}
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="/static/Logo-1.png" alt="Company Logo" class="logo">
+        </div>
+        <ul class="menu">
+            <li>Dashboard</li>
+            <li><a href="/data_import">Data Import</a></li>
+            <li><a href="/scm">SCM Update</a></li>
+            <li>Foundry Tonnage Master</li>
+            <li>Reports</li>
+            <li>Update Tonnage</li>
+            <li><a href="/">Log Out</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <header>
+            <div class="main-logo">
+                <img src="/static/L&T logo.png" alt="main logo">
+            </div>
+            <div class="search-container">
+                <input type="text" placeholder="Search" class="search-input">
+                <button class="search-button">Search</button>
+            </div>
+            <div class="header-right">
+                <span>Welcome</span>
+            </div>
+        </header>
+        <header>
+            <div class="header-left">
+                <h2>SCM UPDATE</h2>
+            </div>
+            <div class="nums">
+                <form method="GET" action="/scm"> 
+                    <label for="rows_per_page">Rows per page:</label>
+                    <select name="rows_per_page" id="rows_per_page" onchange="this.form.submit()">
+                        <option value="10" {% if rows_per_page == 10 %}selected{% endif %}>10</option>
+                        <option value="20" {% if rows_per_page == 20 %}selected{% endif %}>25</option>
+                        <option value="50" {% if rows_per_page == 50 %}selected{% endif %}>50</option>
+                        <option value="100" {% if rows_per_page == 100 %}selected{% endif %}>100</option>
+                    </select>
+                </form>
+            </div>
+           
+        </header>
+        <div class="selectors">
+            <form action="/filter_data" method="post">
+                
+                <div class="foundry">
+                    <button type="button" class="fndbtn">Select Foundry</button>
+                    <div class="fnd-content">
+                        {% for vendor in fnd_name %}
+                            <label><input type="checkbox" name="fnd" value="{{ vendor }}"> {{ vendor }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="plant">
+                    <button type="button" class="pltbtn">Select Plant</button>
+                    <div class="plt-content">
+                        {% for name in plant_name %}
+                            <label><input type="checkbox" name="plants" value="{{ name }}"> {{ name }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="productgrp">
+                    <button type="button" class="pdtbtn">Select Product Group</button>
+                    <div class="pdt-content">
+                        {% for pdt in pdt_name %}
+                            <label><input type="checkbox" name="productGroup" value="{{ pdt }}"> {{ pdt }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button id="getDataButton" type="submit" class="btn btn-primary">Get Data</button>
+            </form>
+           
+        </div>
+       
+            <div class="tcontainer">
+                <div class="table-wrapper">
+                    <form action="/execute/{{number_of_records}}" method="POST">
+                        <table>
+                            <tr>
+                                <!-- Table headers -->
+                                <th></th>
+                                <th>VendorName</th>
+                                <th>PurchaseDocument</th>
+                                <th>PurchaseDocumentItem</th>
+                                <th>DocDate</th>
+                                <th>Material</th>
+                                <th>MaterialDescription</th>
+                                <th>SalesDocument</th>
+                                <th>SalesOrderItem</th>
+                                <th>ScheduleQty</th>
+                                <th>DeliveredQty</th>
+                                <th>OpenQty</th>
+                                <th>plant</th>
+                                <th>MRP Controller</th>
+                                <th>DeliveryDate</th>
+                                <th>Urgent</th>
+                                <th>SampleQty</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>L1Qty</th>
+                                <th>L1Date</th>
+                                <th>L1Status</th>
+                                <th>L2Qty</th>
+                                <th>L2Date</th>
+                                <th>L2Status</th>
+                                <th>L3Qty</th>
+                                <th>L3Date</th>
+                                <th>L3Status</th>
+                                <th>OANumber</th>
+                                <th>SupplierRemarks</th>
+                                <th>LTVLRemarks</th>
+                                <th>LastUpdated</th>
+                            </tr>
+                            {% for d in data %}
+                            <tr>
+                                <td>
+                                    <a href="{{ url_for('scm_history_page', doc=d.PurchaseDocument, item=d.PurchaseDocumentItem) }}">
+                                        <i class='bx bx-info-circle'></i> 
+                                    </a>
+                                </td>
+                                <td>{{d.VendorName}}</td>
+                                <td>{{d.PurchaseDocument}}</td>
+                                <td>{{d.PurchaseDocumentItem}}</td>
+                                <td>{{d.DocDate}}</td>
+                                <td>{{d.Material}}</td>
+                                <td>{{d.MaterialDescription}}</td>
+                                <td>{{d.SalesDocument}}</td>
+                                <td>{{d.SalesOrderItem}}</td>
+                                <td>{{d.ScheduleQty}}</td>
+                                <td>{{d.DeliveredQty}}</td>
+                                <td>{{d.OpenQty}}</td>
+                                <td>{{d.Plant}}</td>
+                                <td>{{d.MRPController}}</td>
+                                <td>{{d.DeliveryDate}}</td>
+                                <input type="hidden" name="record_id_{{ loop.index }}" value="{{ d.PurchaseDocument }}">
+                                <input type="hidden" name="item_id_{{ loop.index }}" value="{{ d.PurchaseDocumentItem }}"> <!-- Hidden input -->
+                                <input type="hidden" name="delivery_date_{{ loop.index }}" value="{{ d.DeliveryDate }}"> <!-- Hidden input -->
+                                <td>
+                                    <input type="hidden" name="record_id_{{ loop.index }}" value="{{ d.PurchaseDocument }}">
+                                    <select name="urgent_{{ loop.index }}">
+                                        <option value="" {% if d.Urgent == '' %}selected{% endif %}></option>
+                                        <option value="Yes" {% if d.Urgent == 'Yes' %}selected{% endif %}>Yes</option>
+                                    </select>
+                                </td>
+                                <td>{{d.SQty}}</td>
+                                <td>{{d.SDate}}</td>
+                                <td>{{d.SStatusDescription}}</td>
+                                <td>{{d.L1Qty}}</td>
+                                <td>{{d.L1Date}}</td>
+                                <td>{{d.L1StatusDescription}}</td>
+                                <td>{{d.L2Qty}}</td>
+                                <td>{{d.L2Date}}</td>
+                                <td>{{d.L2StatusDescription}}</td>
+                                <td>{{d.L3Qty}}</td>
+                                <td>{{d.L3Date}}</td>
+                                <td>{{d.L3StatusDescription}}</td>
+                                <td>{{d.OANumber}}</td>
+                                <td>{{d.SupplierRemarks}}</td>
+                                <td>
+                                    <input type="text" name="LTVLRemarks_{{ loop.index }}" value="{{ d.LTVLRemarks }}">
+                                </td>
+                                <td>{{d.UpdatedDateTime}}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    </div>
+                        
+            <button type="submit" class="execute" id="executebutton">Execute</button>
+            
+        </form>
+        <div>
+            {% if page|default(1) > 1 %}
+                <a href="{{ url_for('scm', rows_per_page=rows_per_page, page=page-1) }}">Previous</a>
+            {% endif %}
+            <span>Page {{ page|default(1) }} of {{ total_pages|default(1) }}</span>
+            {% if page|default(1) < total_pages|default(1) %}
+                <a href="{{ url_for('scm', rows_per_page=rows_per_page, page=page+1) }}">Next</a>
+            {% endif %}
+        </div>
+        
+        
+                
+        
+    </div>
+    
+</body>
+</html>
