@@ -8,7 +8,7 @@ import hashlib
 
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="D:/IPMTS portal/python portal/templates")
 app.secret_key = 'your_secret_key_here'
 app.config['SECRET_KEY']='2004'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
